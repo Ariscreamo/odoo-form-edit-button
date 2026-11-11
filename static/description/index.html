@@ -1,0 +1,208 @@
+<section class="container" style="padding-top: 24px; padding-bottom: 8px;">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1 style="font-size: 38px; font-weight: 700; color: #714B67; margin-bottom: 8px;">Form Edit Button</h1>
+            <p class="lead" style="font-size: 21px; color: #4a4a4a; margin-bottom: 18px;">
+                Bring back the classic <b>Edit</b> button in Odoo 19. Forms open in read-only mode,
+                and the native <b>cloud icon</b> saves your changes.
+            </p>
+            <p style="margin-bottom: 4px;">
+                <span class="badge badge-pill rounded-pill badge-success bg-success" style="font-size: 14px; padding: 6px 12px; margin: 2px;">Free</span>
+                <span class="badge badge-pill rounded-pill badge-info bg-info" style="font-size: 14px; padding: 6px 12px; margin: 2px;">LGPL-3</span>
+                <span class="badge badge-pill rounded-pill badge-secondary bg-secondary" style="font-size: 14px; padding: 6px 12px; margin: 2px;">Odoo 19.0</span>
+                <span class="badge badge-pill rounded-pill badge-secondary bg-secondary" style="font-size: 14px; padding: 6px 12px; margin: 2px;">No configuration</span>
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="container" style="padding-top: 16px; padding-bottom: 16px;">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <div class="alert alert-info" style="font-size: 16px; border-radius: 10px; padding: 18px 22px;">
+                <b>Why?</b> Since Odoo 16, form views open directly in edit mode: a single click on a field
+                changes it. This makes accidental changes easy. <b>Form Edit Button</b> brings back the explicit
+                <i>Edit</i> step. It keeps Odoo 19's own save system: the cloud icon, validation and auto-save
+                all work exactly as before.
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container" style="padding-top: 8px; padding-bottom: 16px;">
+    <h2 class="text-center" style="font-size: 28px; font-weight: 700; color: #714B67; margin-bottom: 22px;">How it works</h2>
+
+    <div class="row" style="margin-bottom: 30px;">
+        <div class="col-md-12">
+            <h4 style="font-weight: 600; margin-bottom: 6px;">1. Records open in read-only mode</h4>
+            <p style="color: #555;">Fields are locked: clicking a field no longer edits it. An <b>Edit</b> button
+                (shortcut <kbd>Alt</kbd>+<kbd>A</kbd>) is shown in its usual place, before <i>New</i>.</p>
+            <img src="screenshot_1_readonly.png" class="img-fluid border rounded shadow-sm" alt="Form view in read-only mode with the Edit button"/>
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 30px;">
+        <div class="col-md-12">
+            <h4 style="font-weight: 600; margin-bottom: 6px;">2. Click Edit: the form becomes editable</h4>
+            <p style="color: #555;">The native cloud (save) and cross (discard) icons stay visible for the whole
+                editing session, even before the first change.</p>
+            <img src="screenshot_2_edit_mode.png" class="img-fluid border rounded shadow-sm" alt="Form view in edit mode with the cloud and discard icons"/>
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 30px;">
+        <div class="col-md-12">
+            <h4 style="font-weight: 600; margin-bottom: 6px;">3. Make your changes, including one2many lines</h4>
+            <p style="color: #555;">Every field and editable list line (for example sales order lines) can be edited.</p>
+            <img src="screenshot_3_editing.png" class="img-fluid border rounded shadow-sm" alt="Editing a sales order line"/>
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 10px;">
+        <div class="col-md-12">
+            <h4 style="font-weight: 600; margin-bottom: 6px;">4. Click the cloud: saved, back to read-only</h4>
+            <p style="color: #555;">The standard save runs, then the form returns to read-only mode.
+                The cross discards the changes and also returns to read-only mode.</p>
+            <img src="screenshot_4_saved.png" class="img-fluid border rounded shadow-sm" alt="Record saved and back in read-only mode"/>
+        </div>
+    </div>
+</section>
+
+<section class="container" style="padding-top: 16px; padding-bottom: 16px;">
+    <h2 class="text-center" style="font-size: 28px; font-weight: 700; color: #714B67; margin-bottom: 22px;">Features</h2>
+    <div class="row">
+        <div class="col-md-6" style="margin-bottom: 16px;">
+            <div class="card h-100" style="border-radius: 10px;">
+                <div class="card-body">
+                    <h5 class="card-title" style="font-weight: 600;">Read-only by default</h5>
+                    <p class="card-text" style="color: #555;">All full-page form views of existing records open
+                        read-only, across all apps and custom modules.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" style="margin-bottom: 16px;">
+            <div class="card h-100" style="border-radius: 10px;">
+                <div class="card-body">
+                    <h5 class="card-title" style="font-weight: 600;">Native cloud save kept</h5>
+                    <p class="card-text" style="color: #555;">The cloud icon is not replaced. Validation of required
+                        fields, auto-save when leaving the page or switching browser tab: all standard.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" style="margin-bottom: 16px;">
+            <div class="card h-100" style="border-radius: 10px;">
+                <div class="card-body">
+                    <h5 class="card-title" style="font-weight: 600;">Natural workflow</h5>
+                    <p class="card-text" style="color: #555;">New records and duplicates open directly in edit mode.
+                        Moving to the next record with the pager shows it read-only.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" style="margin-bottom: 16px;">
+            <div class="card h-100" style="border-radius: 10px;">
+                <div class="card-body">
+                    <h5 class="card-title" style="font-weight: 600;">No side effects</h5>
+                    <p class="card-text" style="color: #555;">Forms in dialogs (wizards, quick create, one2many lines),
+                        the Settings page and forms that are already read-only (<code>edit="0"</code>, access rights)
+                        keep their standard behavior.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" style="margin-bottom: 16px;">
+            <div class="card h-100" style="border-radius: 10px;">
+                <div class="card-body">
+                    <h5 class="card-title" style="font-weight: 600;">Action buttons and chatter</h5>
+                    <p class="card-text" style="color: #555;">Header buttons, smart buttons, status bar and chatter
+                        work in read-only mode as in edit mode.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" style="margin-bottom: 16px;">
+            <div class="card h-100" style="border-radius: 10px;">
+                <div class="card-body">
+                    <h5 class="card-title" style="font-weight: 600;">Lightweight and tested</h5>
+                    <p class="card-text" style="color: #555;">No configuration, no database tables, no change to Odoo's
+                        source code. Covered by 19 automated JavaScript tests and a browser test.
+                        English and French included.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container" style="padding-top: 16px; padding-bottom: 16px;">
+    <h2 class="text-center" style="font-size: 28px; font-weight: 700; color: #714B67; margin-bottom: 22px;">Behavior at a glance</h2>
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <table class="table table-bordered table-striped" style="font-size: 15px;">
+                <thead>
+                    <tr><th>Situation</th><th>Result</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Open an existing record</td><td>Read-only, <b>Edit</b> button displayed</td></tr>
+                    <tr><td>Click <b>Edit</b> or press <kbd>Alt</kbd>+<kbd>A</kbd></td><td>Fields become editable</td></tr>
+                    <tr><td>Click the cloud or press <kbd>Alt</kbd>+<kbd>S</kbd></td><td>Standard save, then read-only</td></tr>
+                    <tr><td>Click the cross or press <kbd>Alt</kbd>+<kbd>J</kbd></td><td>Changes discarded, then read-only</td></tr>
+                    <tr><td>Required field empty when saving</td><td>Stays in edit mode and shows the error (standard)</td></tr>
+                    <tr><td>Click <b>New</b> or <b>Duplicate</b></td><td>Opens in edit mode</td></tr>
+                    <tr><td>Next / previous record (pager)</td><td>Pending changes auto-saved (standard), next record read-only</td></tr>
+                    <tr><td>Form opened in a dialog, Settings, <code>edit="0"</code></td><td>Unchanged, standard behavior</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="container" style="padding-top: 16px; padding-bottom: 16px;">
+    <h2 class="text-center" style="font-size: 28px; font-weight: 700; color: #714B67; margin-bottom: 22px;">Configuration (optional)</h2>
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <p>Nothing to configure: install the module and it works. To keep the standard behavior somewhere:</p>
+            <ul>
+                <li style="margin-bottom: 8px;">On <b>one view</b>, add <code>edit_button="0"</code> to the <code>&lt;form&gt;</code> tag,
+                    for example in an inherited view:
+<pre style="margin-top: 8px; padding: 12px; border: 1px solid #ddd; border-radius: 6px;">&lt;xpath expr="/form" position="attributes"&gt;
+    &lt;attribute name="edit_button"&gt;0&lt;/attribute&gt;
+&lt;/xpath&gt;</pre>
+                </li>
+                <li style="margin-bottom: 8px;">On <b>one action</b>, add <code>'form_edit_button': False</code> to the action context.</li>
+                <li>In <b>JavaScript</b>, override the <code>editButtonEnabled</code> getter of <code>FormController</code>.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="container" style="padding-top: 16px; padding-bottom: 16px;">
+    <div class="row">
+        <div class="col-md-6" style="margin-bottom: 16px;">
+            <h3 style="font-size: 22px; font-weight: 700; color: #714B67;">Installation</h3>
+            <ol style="color: #444;">
+                <li>Copy the <code>web_form_edit_button</code> folder into your addons path.</li>
+                <li>Restart the Odoo server.</li>
+                <li>Activate the developer mode, then <i>Apps &gt; Update Apps List</i>.</li>
+                <li>Search for <b>Form Edit Button</b> (remove the "Apps" filter) and click <i>Activate</i>.</li>
+            </ol>
+        </div>
+        <div class="col-md-6" style="margin-bottom: 16px;">
+            <h3 style="font-size: 22px; font-weight: 700; color: #714B67;">Compatibility</h3>
+            <ul style="color: #444;">
+                <li>Odoo 19.0, tested on the Community edition.</li>
+                <li>Only uses the standard web client form view, which Enterprise also uses.</li>
+                <li>Depends only on the <code>web</code> module.</li>
+                <li>Uninstall at any time to get the standard behavior back.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="container" style="padding-top: 8px; padding-bottom: 32px;">
+    <div class="row">
+        <div class="col-md-10 offset-md-1 text-center">
+            <div class="border rounded" style="padding: 20px; border-color: #714B67;">
+                <h3 style="font-size: 22px; font-weight: 700; color: #714B67; margin-bottom: 8px;">Support</h3>
+                <p style="margin-bottom: 0;">Question, bug or suggestion?
+                    Write to <a href="mailto:henintsoaariel@gmail.com">henintsoaariel@gmail.com</a>.</p>
+            </div>
+        </div>
+    </div>
+</section>
