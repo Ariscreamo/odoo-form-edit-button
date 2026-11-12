@@ -79,6 +79,13 @@ The module only relies on the native **record mode** mechanism
 * `static/src/form_edit_button.xml`: inherits the `web.FormView` template to add
   the button before "New".
 * `i18n/fr.po`: French translation ("Edit" → "Modifier").
+* `__manifest__.py`: the template file is loaded right after Odoo's own form
+  templates (`("after", "web/static/src/views/form/form_controller.xml", …)`), so
+  forms that copy these templates (Sales, Project, Tasks, To-do…) also get the
+  button, whatever the module loading order.
+* Safety net: if a form uses a template that does not contain the Edit button
+  (e.g. a fully custom third-party template), that form keeps the standard
+  behavior (editable) instead of being locked in read-only mode.
 
 No Odoo source file is modified.
 
