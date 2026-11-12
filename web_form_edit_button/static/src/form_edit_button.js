@@ -11,7 +11,7 @@ import { SettingsFormController } from "@web/webclient/settings_form_view/settin
  *
  * Le principe s'appuie uniquement sur le mécanisme natif de mode de
  * l'enregistrement (`record.config.mode` : "readonly" | "edit") déjà géré
- * par le RelationalModel d'Odoo 19 :
+ * par le RelationalModel d'Odoo 18 :
  *  - le formulaire est chargé en mode "readonly" (le modèle force lui-même
  *    le mode "edit" pour un nouvel enregistrement) ;
  *  - le bouton « Modifier » appelle `record.switchMode("edit")` ;
@@ -62,7 +62,7 @@ patch(FormController.prototype, {
      *  - dans les dialogues (assistants, création rapide, lignes x2many…) ;
      *  - si la vue n'affiche pas de barre de contrôle ;
      *  - si le formulaire est déjà en lecture seule nativement
-     *    (edit="0", droits, prop readonly/preventEdit) ;
+     *    (edit="0", droits, prop mode="readonly"/preventEdit) ;
      *  - si la vue porte edit_button="0" ou l'action le contexte
      *    {'form_edit_button': False}.
      *
@@ -71,7 +71,7 @@ patch(FormController.prototype, {
      * @returns {boolean}
      */
     get editButtonEnabled() {
-        if (!this.canEdit || this.props.readonly || this.env.inDialog) {
+        if (!this.canEdit || this.props.mode === "readonly" || this.env.inDialog) {
             return false;
         }
         if (!this.display?.controlPanel) {
@@ -89,7 +89,9 @@ patch(FormController.prototype, {
 
     get modelParams() {
         const params = super.modelParams;
-        if (this.editButtonEnabled) {
+        // Une action qui demande explicitement le mode édition
+        // (flags: { mode: "edit" }) est respectée.
+        if (this.editButtonEnabled && this.props.mode !== "edit") {
             // Le RelationalModel force de lui-même "edit" pour un nouvel
             // enregistrement (resId = false).
             params.config.mode = "readonly";

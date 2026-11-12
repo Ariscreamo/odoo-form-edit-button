@@ -2,7 +2,7 @@
     "name": "Form Edit Button",
     "summary": "Bring back the classic Edit button: form views open in readonly "
     "mode, the native cloud icon saves and returns to readonly.",
-    "version": "19.0.1.0.0",
+    "version": "18.0.1.0.0",
     "category": "Extra Tools",
     "author": "Henintsoa Ariel",
     "maintainer": "Henintsoa Ariel",

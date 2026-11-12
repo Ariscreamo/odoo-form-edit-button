@@ -218,6 +218,20 @@ test("Edit button is displayed before the New button", async () => {
     expect(editRect.left).toBeLessThan(newRect.left);
 });
 
+test("Edit button is displayed even without the create right (create='0')", async () => {
+    await mountView({
+        resModel: "partner",
+        type: "form",
+        arch: `<form create="0"><field name="foo"/></form>`,
+        resId: 1,
+    });
+
+    expect(".o_control_panel .o_form_button_create").toHaveCount(0);
+    expect(EDIT_BUTTON).toHaveCount(1);
+    await contains(EDIT_BUTTON).click();
+    expect(".o_form_editable").toHaveCount(1);
+});
+
 test("navigating with the pager goes back to readonly", async () => {
     await mountView({ resModel: "partner", type: "form", arch: ARCH, resId: 1, resIds: [1, 2] });
 
@@ -304,6 +318,19 @@ test("edit_button='0' on the form arch disables the feature for that view", asyn
 
     expect(".o_form_editable").toHaveCount(1);
     expect(EDIT_BUTTON).toHaveCount(0);
+});
+
+test("an explicit mode='edit' (action flags) opens the record in edition", async () => {
+    onRpc("web_save", () => expect.step("web_save"));
+    await mountView({ resModel: "partner", type: "form", arch: ARCH, resId: 1, mode: "edit" });
+
+    expect(".o_form_editable").toHaveCount(1);
+    expect(EDIT_BUTTON).toHaveCount(0);
+    await contains(FOO_INPUT).edit("changed");
+    await contains(".o_form_status_indicator .o_form_button_save").click();
+    expect.verifySteps(["web_save"]);
+    expect(".o_form_readonly").toHaveCount(1);
+    expect(EDIT_BUTTON).toHaveCount(1);
 });
 
 test("context key form_edit_button=False disables the feature", async () => {

@@ -1,6 +1,6 @@
-# Form Edit Button (`web_form_edit_button`) for Odoo 19
+# Form Edit Button (`web_form_edit_button`) for Odoo 18
 
-Brings back the classic **Edit** button on Odoo 19 form views, without touching
+Brings back the classic **Edit** button on Odoo 18 form views, without touching
 the native save system or the cloud icon.
 
 * Author: Henintsoa Ariel
@@ -17,6 +17,7 @@ the native save system or the cloud icon.
 | Click the **cross** (or `Alt+J`) | Native discard, then back to read-only |
 | **New** button | The new record opens in edit mode; read-only after the cloud |
 | **Duplicate** | The copy opens in edit mode |
+| Action opened explicitly in edit mode (`flags: {'mode': 'edit'}`) | Opens in edit mode |
 | Pager (next / previous) | Next record shown read-only (pending changes are auto-saved, as in standard) |
 | Required field empty when clicking the cloud | Stays in edit mode and shows the error (standard) |
 
@@ -65,7 +66,7 @@ The module only depends on `web`, creates no data or table, and uninstalls clean
 ## Technical design
 
 The module only relies on the native **record mode** mechanism
-(`record.config.mode`: `"readonly"` / `"edit"`) of the Odoo 19 `RelationalModel`.
+(`record.config.mode`: `"readonly"` / `"edit"`) of the Odoo 18 `RelationalModel`.
 
 * `static/src/form_edit_button.js`: patches (`@web/core/utils/patch`) of
   * `FormController`: initial `readonly` mode, Edit button
@@ -84,8 +85,9 @@ No Odoo source file is modified.
 
 ## Tests
 
-* `static/tests/form_edit_button.test.js`: 19 HOOT unit tests (read-only, Edit,
-  cloud, cross, invalid record, editable x2many lines, new record, pager, duplicate,
+* `static/tests/form_edit_button.test.js`: 21 HOOT unit tests (read-only, Edit,
+  cloud, cross, invalid record, editable x2many lines, new record, create="0", pager,
+  duplicate, explicit edit mode,
   dialogs, `edit="0"`, opt-outs).
 * `tests/test_ui.py`: real browser scenario on the Contacts form.
 

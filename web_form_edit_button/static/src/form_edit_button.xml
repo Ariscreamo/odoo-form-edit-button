@@ -4,8 +4,13 @@
     <t t-inherit="web.FormView" t-inherit-mode="extension">
         <!-- Bouton « Modifier » dans la zone des boutons principaux de la barre
              de contrôle, juste avant « Nouveau » (emplacement classique).
+             En Odoo 18, le template web.FormView déclare ce slot deux fois et
+             c'est le dernier qui est affiché ; « Nouveau » y est enveloppé dans
+             <t t-if="canCreate"> : on insère donc avant le premier élément du
+             dernier slot, pour que « Modifier » reste affiché même sans droit
+             de création.
              Sur mobile, étant le premier bouton, il reste visible directement. -->
-        <xpath expr="//t[@t-set-slot='control-panel-create-button']/button[hasclass('o_form_button_create')]" position="before">
+        <xpath expr="(//t[@t-set-slot='control-panel-create-button'])[last()]/*[1]" position="before">
             <button t-if="editButtonEnabled and !model.root.isInEdition"
                     type="button"
                     class="btn btn-primary o_form_button_edit"

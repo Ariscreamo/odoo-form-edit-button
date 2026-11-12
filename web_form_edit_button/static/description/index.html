@@ -3,13 +3,13 @@
         <div class="col-md-12 text-center">
             <h1 style="font-size: 38px; font-weight: 700; color: #714B67; margin-bottom: 8px;">Form Edit Button</h1>
             <p class="lead" style="font-size: 21px; color: #4a4a4a; margin-bottom: 18px;">
-                Bring back the classic <b>Edit</b> button in Odoo 19. Forms open in read-only mode,
+                Bring back the classic <b>Edit</b> button in Odoo 18. Forms open in read-only mode,
                 and the native <b>cloud icon</b> saves your changes.
             </p>
             <p style="margin-bottom: 4px;">
                 <span class="badge badge-pill rounded-pill badge-success bg-success" style="font-size: 14px; padding: 6px 12px; margin: 2px;">Free</span>
                 <span class="badge badge-pill rounded-pill badge-info bg-info" style="font-size: 14px; padding: 6px 12px; margin: 2px;">LGPL-3</span>
-                <span class="badge badge-pill rounded-pill badge-secondary bg-secondary" style="font-size: 14px; padding: 6px 12px; margin: 2px;">Odoo 19.0</span>
+                <span class="badge badge-pill rounded-pill badge-secondary bg-secondary" style="font-size: 14px; padding: 6px 12px; margin: 2px;">Odoo 18.0</span>
                 <span class="badge badge-pill rounded-pill badge-secondary bg-secondary" style="font-size: 14px; padding: 6px 12px; margin: 2px;">No configuration</span>
             </p>
         </div>
@@ -22,7 +22,7 @@
             <div class="alert alert-info" style="font-size: 16px; border-radius: 10px; padding: 18px 22px;">
                 <b>Why?</b> Since Odoo 16, form views open directly in edit mode: a single click on a field
                 changes it. This makes accidental changes easy. <b>Form Edit Button</b> brings back the explicit
-                <i>Edit</i> step. It keeps Odoo 19's own save system: the cloud icon, validation and auto-save
+                <i>Edit</i> step. It keeps Odoo 18's own save system: the cloud icon, validation and auto-save
                 all work exactly as before.
             </div>
         </div>
@@ -122,7 +122,7 @@
                 <div class="card-body">
                     <h5 class="card-title" style="font-weight: 600;">Lightweight and tested</h5>
                     <p class="card-text" style="color: #555;">No configuration, no database tables, no change to Odoo's
-                        source code. Covered by 19 automated JavaScript tests and a browser test.
+                        source code. Covered by 21 automated JavaScript tests and a browser test.
                         English and French included.</p>
                 </div>
             </div>
@@ -145,6 +145,7 @@
                     <tr><td>Click the cross or press <kbd>Alt</kbd>+<kbd>J</kbd></td><td>Changes discarded, then read-only</td></tr>
                     <tr><td>Required field empty when saving</td><td>Stays in edit mode and shows the error (standard)</td></tr>
                     <tr><td>Click <b>New</b> or <b>Duplicate</b></td><td>Opens in edit mode</td></tr>
+                    <tr><td>Action opened explicitly in edit mode (<code>flags: {'mode': 'edit'}</code>)</td><td>Opens in edit mode</td></tr>
                     <tr><td>Next / previous record (pager)</td><td>Pending changes auto-saved (standard), next record read-only</td></tr>
                     <tr><td>Form opened in a dialog, Settings, <code>edit="0"</code></td><td>Unchanged, standard behavior</td></tr>
                 </tbody>
@@ -186,7 +187,7 @@
         <div class="col-md-6" style="margin-bottom: 16px;">
             <h3 style="font-size: 22px; font-weight: 700; color: #714B67;">Compatibility</h3>
             <ul style="color: #444;">
-                <li>Odoo 19.0, tested on the Community edition.</li>
+                <li>Odoo 18.0, tested on the Community edition.</li>
                 <li>Only uses the standard web client form view, which Enterprise also uses.</li>
                 <li>Depends only on the <code>web</code> module.</li>
                 <li>Uninstall at any time to get the standard behavior back.</li>
