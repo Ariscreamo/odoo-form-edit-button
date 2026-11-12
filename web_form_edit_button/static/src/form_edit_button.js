@@ -1,18 +1,17 @@
-import { onWillUpdateProps, status, useEffect } from "@odoo/owl";
+import { onPatched, onWillDestroy, onWillUpdateProps } from "@odoo/owl";
 import { getTemplate } from "@web/core/templates";
 import { patch } from "@web/core/utils/patch";
 import { exprToBoolean } from "@web/core/utils/strings";
 import { X2ManyField } from "@web/views/fields/x2many/x2many_field";
 import { FormController } from "@web/views/form/form_controller";
-import { FormStatusIndicator } from "@web/views/form/form_status_indicator/form_status_indicator";
 import { SettingsFormController } from "@web/webclient/settings_form_view/settings_form_controller";
 
 /**
- * Réintroduit le bouton « Modifier » sur les vues formulaire.
+ * Réintroduit le bouton « Modifier » sur les vues formulaire (Odoo 20 / Owl 3).
  *
  * Le principe s'appuie uniquement sur le mécanisme natif de mode de
  * l'enregistrement (`record.config.mode` : "readonly" | "edit") déjà géré
- * par le RelationalModel d'Odoo 18 :
+ * par le RelationalModel d'Odoo 20 :
  *  - le formulaire est chargé en mode "readonly" (le modèle force lui-même
  *    le mode "edit" pour un nouvel enregistrement) ;
  *  - le bouton « Modifier » appelle `record.switchMode("edit")` ;
@@ -38,22 +37,40 @@ patch(FormController.prototype, {
         this._formEditButtonLastResId = undefined;
         this._formEditButtonForceEdit = false;
         this._formEditButtonAfterEdit = null;
+        this._formEditButtonDestroyed = false;
         super.setup(...arguments);
+        onWillDestroy(() => {
+            this._formEditButtonDestroyed = true;
+        });
 
         if (this.editButtonEnabled) {
+            // Nuage + croix : en Odoo 20, l'indicateur reçoit ses props de
+            // `useStatusIndicator` et n'affiche ses boutons que si
+            // l'enregistrement est modifié. Pendant l'édition, on les affiche
+            // aussi sans modification, pour pouvoir sauvegarder / quitter
+            // l'édition. Seul l'affichage change : la sauvegarde reste native.
+            const statusIndicator = this.statusIndicator;
+            if (statusIndicator && typeof statusIndicator.props === "function") {
+                const getNativeProps = statusIndicator.props;
+                statusIndicator.props = () => {
+                    const props = getNativeProps();
+                    if (this.model.root.isInEdition) {
+                        props.isDirty = true;
+                    }
+                    return props;
+                };
+            }
+
             // Exécute une action différée qui nécessitait le mode édition
             // (ex. « Modifier les propriétés » du menu engrenage), une fois que
             // le formulaire a été re-rendu en mode édition.
-            useEffect(
-                (isInEdition) => {
-                    if (isInEdition && this._formEditButtonAfterEdit) {
-                        const callback = this._formEditButtonAfterEdit;
-                        this._formEditButtonAfterEdit = null;
-                        callback();
-                    }
-                },
-                () => [this.model.root.isInEdition]
-            );
+            onPatched(() => {
+                if (this._formEditButtonAfterEdit && this.model.root.isInEdition) {
+                    const callback = this._formEditButtonAfterEdit;
+                    this._formEditButtonAfterEdit = null;
+                    callback();
+                }
+            });
         }
     },
 
@@ -63,7 +80,7 @@ patch(FormController.prototype, {
      *  - dans les dialogues (assistants, création rapide, lignes x2many…) ;
      *  - si la vue n'affiche pas de barre de contrôle ;
      *  - si le formulaire est déjà en lecture seule nativement
-     *    (edit="0", droits, prop mode="readonly"/preventEdit) ;
+     *    (edit="0", droits, prop readonly/preventEdit) ;
      *  - si la vue porte edit_button="0" ou l'action le contexte
      *    {'form_edit_button': False}.
      *
@@ -72,7 +89,7 @@ patch(FormController.prototype, {
      * @returns {boolean}
      */
     get editButtonEnabled() {
-        if (!this.canEdit || this.props.mode === "readonly" || this.env.inDialog) {
+        if (!this.canEdit || this.props.readonly || this.env.inDialog) {
             return false;
         }
         if (!this.display?.controlPanel) {
@@ -103,7 +120,7 @@ patch(FormController.prototype, {
         if (this.__formEditButtonInTemplate === undefined) {
             let found = true;
             try {
-                const template = getTemplate(this.constructor.template);
+                const template = getTemplate(this.props.buttonTemplate);
                 if (template && typeof template.querySelector === "function") {
                     found = Boolean(template.querySelector("[class~='o_form_button_edit']"));
                 }
@@ -117,9 +134,7 @@ patch(FormController.prototype, {
 
     get modelParams() {
         const params = super.modelParams;
-        // Une action qui demande explicitement le mode édition
-        // (flags: { mode: "edit" }) est respectée.
-        if (this.editButtonEnabled && this.props.mode !== "edit") {
+        if (this.editButtonEnabled) {
             // Le RelationalModel force de lui-même "edit" pour un nouvel
             // enregistrement (resId = false).
             params.config.mode = "readonly";
@@ -161,7 +176,7 @@ patch(FormController.prototype, {
      * enregistrement existant.
      */
     async _formEditButtonLeaveEdition() {
-        if (!this.editButtonEnabled || status(this) === "destroyed") {
+        if (!this.editButtonEnabled || this._formEditButtonDestroyed) {
             return;
         }
         const root = this.model.root;
@@ -221,28 +236,6 @@ patch(FormController.prototype, {
             };
         }
         return items;
-    },
-});
-
-/**
- * Indicateur de sauvegarde (nuage + croix) : en mode « bouton Modifier », ses
- * boutons restent visibles tant que le formulaire est en édition, même sans
- * modification, pour pouvoir sauvegarder/quitter l'édition. Le reste de son
- * fonctionnement (états, validation, raccourcis) est inchangé.
- */
-patch(FormStatusIndicator, {
-    props: {
-        ...FormStatusIndicator.props,
-        showButtonsInEdition: { type: Boolean, optional: true },
-    },
-});
-
-patch(FormStatusIndicator.prototype, {
-    get displayButtons() {
-        return (
-            super.displayButtons ||
-            Boolean(this.props.showButtonsInEdition && this.props.model.root.isInEdition)
-        );
     },
 });
 

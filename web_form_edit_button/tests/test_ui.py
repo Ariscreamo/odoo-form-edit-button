@@ -30,7 +30,7 @@ PARTNER_FORM_SCENARIO = r"""
     await waitFor(".o_form_view .o_form_readonly");
     await waitFor(".o_control_panel .o_form_button_edit");
     expectNone(".o_field_widget[name=function] input");
-    await waitFor(".o_form_status_indicator .o_form_button_save .fa-cloud-upload");
+    await waitFor(".o_form_status_indicator .o_form_button_save [data-icon=cloud_upload]");
     await waitFor(".o_form_status_indicator_buttons.invisible");
 
     // 2. un clic sur un champ ne passe pas en édition

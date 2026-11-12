@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
 
-    <t t-inherit="web.FormView" t-inherit-mode="extension">
-        <!-- Bouton « Modifier » dans la zone des boutons principaux de la barre
-             de contrôle, juste avant « Nouveau » (emplacement classique).
-             En Odoo 18, le template web.FormView déclare ce slot deux fois et
-             c'est le dernier qui est affiché ; « Nouveau » y est enveloppé dans
-             <t t-if="canCreate"> : on insère donc avant le premier élément du
-             dernier slot, pour que « Modifier » reste affiché même sans droit
-             de création.
-             Sur mobile, étant le premier bouton, il reste visible directement. -->
-        <xpath expr="(//t[@t-set-slot='control-panel-create-button'])[last()]/*[1]" position="before">
-            <button t-if="editButtonEnabled and !model.root.isInEdition"
+    <!-- Odoo 20 : les boutons principaux du formulaire (« Nouveau ») sont dans
+         le template web.FormView.Buttons. Le bouton « Modifier » est placé
+         juste avant « Nouveau » (emplacement classique). Les vues qui ont leur
+         propre template de boutons (Ventes, Projet…) en héritent et le
+         récupèrent automatiquement. Sur mobile, étant le premier bouton, il
+         reste visible directement. -->
+    <t t-inherit="web.FormView.Buttons" t-inherit-mode="extension">
+        <xpath expr="//button[hasclass('o_form_button_create')]" position="before">
+            <button t-if="this.editButtonEnabled and !this.model.root.isInEdition"
                     type="button"
                     class="btn btn-primary o_form_button_edit"
                     data-hotkey="a"
-                    t-on-click.stop="onFormEditButtonClicked">Edit</button>
-        </xpath>
-
-        <!-- Nuage + croix visibles pendant toute la durée de l'édition. -->
-        <xpath expr="//FormStatusIndicator" position="attributes">
-            <attribute name="showButtonsInEdition">editButtonEnabled</attribute>
+                    t-on-click.stop="this.onFormEditButtonClicked">Edit</button>
         </xpath>
     </t>
 

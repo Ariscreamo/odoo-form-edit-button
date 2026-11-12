@@ -61,7 +61,7 @@ test("an existing record opens in readonly mode with an Edit button", async () =
     expect(EDIT_BUTTON).toHaveText("Edit");
     expect(EDIT_BUTTON).toHaveAttribute("data-hotkey", "a");
     // l'icône nuage est toujours présente (mais masquée tant qu'on n'édite pas)
-    expect(".o_form_status_indicator .o_form_button_save .fa-cloud-upload").toHaveCount(1);
+    expect(".o_form_status_indicator .o_form_button_save [data-icon=cloud_upload]").toHaveCount(1);
     expect(`${STATUS_BUTTONS}.invisible`).toHaveCount(1);
     expect(FOO_INPUT).toHaveCount(0);
     expect(".o_field_widget[name=foo]").toHaveText("yop");
@@ -318,19 +318,6 @@ test("edit_button='0' on the form arch disables the feature for that view", asyn
 
     expect(".o_form_editable").toHaveCount(1);
     expect(EDIT_BUTTON).toHaveCount(0);
-});
-
-test("an explicit mode='edit' (action flags) opens the record in edition", async () => {
-    onRpc("web_save", () => expect.step("web_save"));
-    await mountView({ resModel: "partner", type: "form", arch: ARCH, resId: 1, mode: "edit" });
-
-    expect(".o_form_editable").toHaveCount(1);
-    expect(EDIT_BUTTON).toHaveCount(0);
-    await contains(FOO_INPUT).edit("changed");
-    await contains(".o_form_status_indicator .o_form_button_save").click();
-    expect.verifySteps(["web_save"]);
-    expect(".o_form_readonly").toHaveCount(1);
-    expect(EDIT_BUTTON).toHaveCount(1);
 });
 
 test("context key form_edit_button=False disables the feature", async () => {
