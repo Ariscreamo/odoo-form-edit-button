@@ -1,4 +1,5 @@
 import { onWillUpdateProps, status, useEffect } from "@odoo/owl";
+import { getTemplate } from "@web/core/templates";
 import { patch } from "@web/core/utils/patch";
 import { exprToBoolean } from "@web/core/utils/strings";
 import { X2ManyField } from "@web/views/fields/x2many/x2many_field";
@@ -77,6 +78,12 @@ patch(FormController.prototype, {
         if (!this.display?.controlPanel) {
             return false;
         }
+        if (!this._formEditButtonInTemplate) {
+            // Sécurité : si la vue utilise un template qui n'affiche pas le
+            // bouton « Modifier », on garde le fonctionnement natif plutôt que
+            // de bloquer le formulaire en lecture seule.
+            return false;
+        }
         const archValue = this.archInfo.xmlDoc.getAttribute(EDIT_BUTTON_ARCH_ATTRIBUTE);
         if (archValue !== null && !exprToBoolean(archValue)) {
             return false;
@@ -85,6 +92,27 @@ patch(FormController.prototype, {
             return false;
         }
         return true;
+    },
+
+    /**
+     * Vrai si le template utilisé par ce formulaire contient le bouton
+     * « Modifier » (calculé une seule fois). Un template inconnu n'est pas
+     * bloquant.
+     */
+    get _formEditButtonInTemplate() {
+        if (this.__formEditButtonInTemplate === undefined) {
+            let found = true;
+            try {
+                const template = getTemplate(this.constructor.template);
+                if (template && typeof template.querySelector === "function") {
+                    found = Boolean(template.querySelector("[class~='o_form_button_edit']"));
+                }
+            } catch {
+                found = true;
+            }
+            this.__formEditButtonInTemplate = found;
+        }
+        return this.__formEditButtonInTemplate;
     },
 
     get modelParams() {
